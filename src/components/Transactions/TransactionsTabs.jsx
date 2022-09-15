@@ -14,6 +14,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import UpIcon from '@mui/icons-material/KeyboardArrowUp'
 import { green } from '@mui/material/colors'
 import Box from '@mui/material/Box'
+import TransactionContainer from '../TransactionsContainer/TransactionContainer'
 
 function TabPanel(props) {
   const {
@@ -29,7 +30,7 @@ function TabPanel(props) {
       aria-labelledby={`action-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && <Box sx={{ p: 2, pb: 5 }}>{children}</Box>}
     </Typography>
   )
 }
@@ -64,6 +65,16 @@ const fabGreenStyle = {
 export default function TransactionsTabs() {
   const theme = useTheme()
   const [value, setValue] = React.useState(0)
+
+  const tabs = [
+    { name: 'aaa' },
+    { name: 'aaa' },
+    { name: 'aaa' },
+    { name: 'aaa' },
+    { name: 'aaa' },
+    { name: 'aaa' },
+    { name: 'aaa' },
+  ]
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -128,7 +139,7 @@ export default function TransactionsTabs() {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          Item One
+          <TransactionContainer tabs={tabs} />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           Item Two
