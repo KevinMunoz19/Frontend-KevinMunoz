@@ -1,0 +1,14 @@
+.body {
+    background-color: rgb(208, 163, 163);
+    padding: 1rem;
+}
+.header {
+    background-color: rgb(163, 208, 172);
+    padding: 1rem;
+}
+.footer {
+    background-color: rgb(163, 116, 173);
+    padding: 1rem;
+    position: absolute;
+    bottom: 0;
+}
