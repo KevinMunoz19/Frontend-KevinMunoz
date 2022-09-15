@@ -9,8 +9,7 @@ import {
   Checkbox, Button, Typography, FormControlLabel, FormControl, CardContent,
 } from '@mui/material'
 import { Formik, Form, useField } from 'formik'
-import * as Yup from 'yup'
-import './signupform.css'
+import './form.css'
 
 function MyTextInput({ label, ...props }) {
   const [field, meta] = useField(props)
@@ -103,44 +102,20 @@ MyTextInput.propTypes = {
   props: PropTypes.object.isRequired,
 }
 
-// And now we can use these
-export default function SignUpForm() {
+export default function FormMaker({
+  formTitle, initialFormValues, validationSchema, inputTextFields,
+}) {
   return (
     <Card className="formcard" variant="outlined">
       <CardContent>
         <div className="textinputcontainer">
           <Typography variant="h3" gutterBottom>
-            Sign Up
+            {formTitle}
           </Typography>
         </div>
         <Formik
-          initialValues={{
-            firstName: '',
-            lastName: '',
-            email: '',
-            acceptedTerms: false,
-            jobType: '',
-          }}
-          validationSchema={Yup.object({
-            firstName: Yup.string()
-              .max(15, 'Must be 15 characters or less')
-              .required('Required'),
-            lastName: Yup.string()
-              .max(20, 'Must be 20 characters or less')
-              .required('Required'),
-            email: Yup.string()
-              .email('Invalid email address')
-              .required('Required'),
-            acceptedTerms: Yup.boolean()
-              .required('Required')
-              .oneOf([true], 'You must accept the terms and conditions.'),
-            jobType: Yup.string()
-              .oneOf(
-                ['designer', 'development', 'product', 'other'],
-                'Invalid Job Type',
-              )
-              .required('Required'),
-          })}
+          initialValues={initialFormValues}
+          validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
               // eslint-disable-next-line no-console
@@ -154,39 +129,19 @@ export default function SignUpForm() {
               container
               direction="column"
             >
-              <Grid
-                container
-                direction="row"
-              >
-                <MyTextInput
-                  label="First Name"
-                  name="firstName"
-                  type="text"
-                  placeholder="Jane"
-                />
-              </Grid>
-              <Grid
-                container
-                direction="row"
-              >
-                <MyTextInput
-                  label="Last Name"
-                  name="lastName"
-                  type="text"
-                  placeholder="Doe"
-                />
-              </Grid>
-              <Grid
-                container
-                direction="row"
-              >
-                <MyTextInput
-                  label="Email Address"
-                  name="email"
-                  type="email"
-                  placeholder="jane@formik.com"
-                />
-              </Grid>
+              {inputTextFields.map((item) => (
+                <Grid
+                  container
+                  direction="row"
+                >
+                  <MyTextInput
+                    label={item.label}
+                    name={item.name}
+                    type={item.type}
+                    placeholder={item.placeholder}
+                  />
+                </Grid>
+              ))}
               <Grid
                 container
                 direction="row"
@@ -213,4 +168,10 @@ export default function SignUpForm() {
       </CardContent>
     </Card>
   )
+}
+
+FormMaker.propTypes = {
+  formTitle: PropTypes.string.isRequired,
+  initialFormValues: PropTypes.object.isRequired,
+  validationSchema: PropTypes.object.isRequired,
 }
