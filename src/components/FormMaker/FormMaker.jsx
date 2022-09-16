@@ -59,7 +59,7 @@ function MyCheckbox({ label, ...props }) {
   )
 }
 
-function MySelect({ label, ...props }) {
+function MySelect({ label, options, ...props }) {
   const [field, meta] = useField(props)
   return (
     <div className="textinputcontainer">
@@ -72,10 +72,9 @@ function MySelect({ label, ...props }) {
           className="textinput"
           label={label}
         >
-          <MenuItem value="designer">Designer</MenuItem>
-          <MenuItem value="development">Developer</MenuItem>
-          <MenuItem value="product">Product Manager</MenuItem>
-          <MenuItem value="other">Other</MenuItem>
+          {options.map((item) => (
+            <MenuItem value={item.value} key={item.value}>{item.text}</MenuItem>
+          ))}
         </Select>
         {meta.touched && meta.error ? (
           <FormHelperText
@@ -94,16 +93,16 @@ MySelect.propTypes = {
 }
 
 MyCheckbox.propTypes = {
-  children: PropTypes.node.isRequired,
+  label: PropTypes.string.isRequired,
 }
 
 MyTextInput.propTypes = {
   label: PropTypes.string.isRequired,
-  props: PropTypes.object.isRequired,
 }
 
 export default function FormMaker({
-  formTitle, initialFormValues, validationSchema, inputTextFields,
+  formTitle, initialFormValues, validationSchema, inputTextFields, selectFields,
+  checkboxFields,
 }) {
   return (
     <Card className="formcard" variant="outlined">
@@ -129,31 +128,50 @@ export default function FormMaker({
               container
               direction="column"
             >
-              {inputTextFields.map((item) => (
-                <Grid
-                  container
-                  direction="row"
-                >
-                  <MyTextInput
-                    label={item.label}
-                    name={item.name}
-                    type={item.type}
-                    placeholder={item.placeholder}
-                  />
-                </Grid>
-              ))}
-              <Grid
-                container
-                direction="row"
-              >
-                <MySelect label="Job Type" name="jobType" />
-              </Grid>
-              <Grid
-                container
-                direction="row"
-              >
-                <MyCheckbox name="acceptedTerms" label="I accept the terms and conditions" />
-              </Grid>
+              {inputTextFields && (
+                <>
+                  {inputTextFields.map((item) => (
+                    <Grid
+                      container
+                      direction="row"
+                      key={item.name}
+                    >
+                      <MyTextInput
+                        label={item.label}
+                        name={item.name}
+                        type={item.type}
+                        placeholder={item.placeholder}
+                      />
+                    </Grid>
+                  ))}
+                </>
+              )}
+              {selectFields && (
+                <>
+                  {selectFields.map((item) => (
+                    <Grid
+                      container
+                      direction="row"
+                      key={item.name}
+                    >
+                      <MySelect label={item.label} name={item.name} options={item.options} />
+                    </Grid>
+                  ))}
+                </>
+              )}
+              {checkboxFields && (
+                <>
+                  {checkboxFields.map((item) => (
+                    <Grid
+                      container
+                      direction="row"
+                      key={item.name}
+                    >
+                      <MyCheckbox name={item.name} label={item.label} />
+                    </Grid>
+                  ))}
+                </>
+              )}
               <Grid
                 container
                 direction="row"
