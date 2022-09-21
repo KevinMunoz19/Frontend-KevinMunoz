@@ -3,6 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Grid } from '@mui/material'
 import './pagelayout.css'
+import Header from '../../components/Header/Header'
 
 function PageLayout({ children }) {
   const bodyProps = {}
@@ -18,7 +19,7 @@ function PageLayout({ children }) {
         direction="row"
         className="header"
       >
-        <h2>header</h2>
+        <Header />
       </Grid>
       <Grid
         container

@@ -66,15 +66,60 @@ export default function TransactionsTabs() {
   const theme = useTheme()
   const [value, setValue] = React.useState(0)
 
+  const dateToday = new Date('2022-09-15')
+  const dateYesterday = new Date('2022-09-14')
+  const dateYesterdayY = new Date('2022-09-13')
+
   const tabs = [
-    { name: 'aaa' },
-    { name: 'aaa' },
-    { name: 'aaa' },
-    { name: 'aaa' },
-    { name: 'aaa' },
-    { name: 'aaa' },
-    { name: 'aaa' },
+    {
+      name: 'aaa',
+      date: dateYesterdayY,
+      transactionNumber: 'bjckjweb234321',
+      amount: 150,
+      transactionType: 'income',
+    },
+    {
+      name: 'aaa',
+      date: dateToday,
+      transactionNumber: 'bjckjweb234322',
+      amount: 140,
+      transactionType: 'income',
+    },
+    {
+      name: 'bbb',
+      date: dateToday,
+      transactionNumber: 'bjckjweb234323',
+      amount: 150,
+      transactionType: 'outcome',
+    },
+    {
+      name: 'bbb',
+      date: dateYesterday,
+      transactionNumber: 'bjckjweb234324',
+      amount: 50,
+      transactionType: 'outcome',
+    },
+    {
+      name: 'ccc',
+      date: dateYesterdayY,
+      transactionNumber: 'bjckjweb234325',
+      amount: 1500,
+      transactionType: 'outcome',
+    },
+    {
+      name: 'bbb',
+      date: dateYesterdayY,
+      transactionNumber: 'bjckjweb234326',
+      amount: 1530,
+      transactionType: 'income',
+    },
   ]
+
+  const tabHistory = tabs
+
+  const tabIncoming = tabs.filter((item) => item.transactionType === 'income')
+
+  const tabExpenses = tabs.filter((item) => item.transactionType === 'outcome')
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -139,13 +184,13 @@ export default function TransactionsTabs() {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <TransactionContainer tabs={tabs} />
+          <TransactionContainer tabs={tabIncoming} />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Item Two
+          <TransactionContainer tabs={tabExpenses} />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          Item Three
+          <TransactionContainer tabs={tabHistory} />
         </TabPanel>
       </SwipeableViews>
       {fabs.map((fab, index) => (

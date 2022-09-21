@@ -1,7 +1,17 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Paper, Grid, Avatar } from '@mui/material'
 
-function TransactionCard() {
+function TransactionCard({ data }) {
+  const {
+    name,
+    date,
+    transactionNumber,
+    amount,
+    transactionType,
+  } = data
+  const transactionAmount = (transactionType === 'income' ? '+' : '-') + amount
   return (
     <Grid
       container
@@ -20,8 +30,7 @@ function TransactionCard() {
           }}
         >
           <Grid
-            container
-            direction="column"
+            item
             xs={2}
             alignContent="center"
             justifyContent="center"
@@ -41,7 +50,6 @@ function TransactionCard() {
           </Grid>
           <Grid
             item
-            direction="column"
             xs={6}
             sx={{
               bgcolor: 'green',
@@ -50,33 +58,40 @@ function TransactionCard() {
           >
             <Grid
               item
-              direction="row"
               xs={12}
             >
-              name
+              {name}
             </Grid>
             <Grid
               item
-              direction="row"
               xs={12}
             >
-              transaction
+              {transactionNumber}
+            </Grid>
+            <Grid
+              item
+              xs={12}
+            >
+              {date.toString()}
             </Grid>
           </Grid>
           <Grid
             item
-            direction="column"
             xs={4}
             sx={{
               bgcolor: 'blue',
             }}
           >
-            $1000
+            {transactionAmount}
           </Grid>
         </Grid>
       </Paper>
     </Grid>
   )
+}
+
+TransactionCard.propTypes = {
+  data: PropTypes.object.isRequired,
 }
 
 export default TransactionCard
