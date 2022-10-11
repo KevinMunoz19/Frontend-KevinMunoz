@@ -6,10 +6,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   Grid, Card, InputLabel, TextField, FormHelperText, Select, MenuItem,
-  Checkbox, Button, Typography, FormControlLabel, FormControl, CardContent,
+  Checkbox, Typography, FormControlLabel, FormControl, CardContent,
 } from '@mui/material'
 import { Formik, Form, useField } from 'formik'
 import './form.css'
+import LoadingButton from '@mui/lab/LoadingButton'
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight'
 
 function MyTextInput({ label, ...props }) {
   const [field, meta] = useField(props)
@@ -102,8 +104,20 @@ MyTextInput.propTypes = {
 
 export default function FormMaker({
   formTitle, initialFormValues, validationSchema, inputTextFields, selectFields,
-  checkboxFields,
+  checkboxFields, handleSubmit,
 }) {
+  const [loading, setLoading] = React.useState(false)
+  const submitting = async (values) => {
+    handleSubmit(values).then((res) => {
+      // eslint-disable-next-line no-console
+      console.log('res', res)
+      if (res) setLoading(false)
+    }).catch((error) => {
+      // eslint-disable-next-line no-console
+      console.log('error', error)
+      if (error) setLoading(false)
+    })
+  }
   return (
     <Card className="formcard" variant="outlined">
       <CardContent>
@@ -115,12 +129,9 @@ export default function FormMaker({
         <Formik
           initialValues={initialFormValues}
           validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              // eslint-disable-next-line no-console
-              console.log('aaaa')
-              setSubmitting(false)
-            }, 400)
+          onSubmit={(values) => {
+            setLoading(true)
+            submitting(values)
           }}
         >
           <Form>
@@ -177,7 +188,14 @@ export default function FormMaker({
                 direction="row"
               >
                 <div className="textinputcontainer">
-                  <Button variant="outlined" type="submit">Submit</Button>
+                  <LoadingButton
+                    variant="outlined"
+                    type="submit"
+                    loading={loading}
+                    startIcon={<KeyboardDoubleArrowRightIcon />}
+                  >
+                    Submit
+                  </LoadingButton>
                 </div>
               </Grid>
             </Grid>

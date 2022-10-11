@@ -1,5 +1,6 @@
 import React from 'react'
 import * as Yup from 'yup'
+import axios from 'axios'
 import FormMaker from '../FormMaker/FormMaker'
 
 function SignUpForm() {
@@ -8,7 +9,6 @@ function SignUpForm() {
     lastName: '',
     email: '',
     acceptedTerms: false,
-    jobType: '',
   }
 
   const validationSchema = Yup.object({
@@ -24,12 +24,11 @@ function SignUpForm() {
     acceptedTerms: Yup.boolean()
       .required('Required')
       .oneOf([true], 'You must accept the terms and conditions.'),
-    jobType: Yup.string()
-      .oneOf(
-        ['designer', 'development', 'product', 'other'],
-        'Invalid Job Type',
-      )
-      .required('Required'),
+    password: Yup.string()
+      .required('Required')
+      .min(8, 'Password is too short - should be 8 chars minimum.'),
+    passwordConfirmation: Yup.string()
+      .oneOf([Yup.ref('password'), null], 'Passwords must match'),
   })
 
   const inputTextFields = [
@@ -49,32 +48,19 @@ function SignUpForm() {
       label: 'Email Address',
       name: 'email',
       type: 'email',
-      placeholder: 'jane@formik.com',
+      placeholder: 'password',
     },
-  ]
-
-  const selectFields = [
     {
-      label: 'Job Type',
-      name: 'jobType',
-      options: [
-        {
-          value: 'designer',
-          text: 'Designer',
-        },
-        {
-          value: 'development',
-          text: 'Developer',
-        },
-        {
-          value: 'product',
-          text: 'Product Manager',
-        },
-        {
-          value: 'other',
-          text: 'Other',
-        },
-      ],
+      label: 'Password',
+      name: 'password',
+      type: 'password',
+      placeholder: 'confirm password',
+    },
+    {
+      label: 'Confirm password',
+      name: 'passwordConfirmation',
+      type: 'password',
+      placeholder: 'jane@formik.com',
     },
   ]
 
@@ -85,14 +71,40 @@ function SignUpForm() {
     },
   ]
 
+  const handleSubmit = async (values) => {
+    try {
+      const {
+        firstName, lastName, email, password,
+      } = values
+      const signUpBody = {
+        firstName,
+        lastName,
+        userEmail: email,
+        userPassword: password,
+      }
+      const resp = await axios.post('http://localhost:3031/api/users/signup', signUpBody)
+      const returnObject = {
+        isSuccess: true,
+        response: resp,
+      }
+      return returnObject
+    } catch (error) {
+      const returnObject = {
+        isSuccess: false,
+        response: error,
+      }
+      return returnObject
+    }
+  }
+
   return (
     <FormMaker
       formTitle="Sign Up"
       initialFormValues={initialFormValues}
       validationSchema={validationSchema}
       inputTextFields={inputTextFields}
-      selectFields={selectFields}
       checkboxFields={checkboxFields}
+      handleSubmit={handleSubmit}
     />
   )
 }
