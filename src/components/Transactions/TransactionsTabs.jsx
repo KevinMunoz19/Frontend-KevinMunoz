@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import * as React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import SwipeableViews from 'react-swipeable-views'
 import { useTheme } from '@mui/material/styles'
@@ -15,6 +15,7 @@ import UpIcon from '@mui/icons-material/KeyboardArrowUp'
 import { green } from '@mui/material/colors'
 import Box from '@mui/material/Box'
 import TransactionContainer from '../TransactionsContainer/TransactionContainer'
+import { getAllTransactions } from '../../utils/apiCalls'
 
 function TabPanel(props) {
   const {
@@ -65,61 +66,43 @@ const fabGreenStyle = {
 export default function TransactionsTabs() {
   const theme = useTheme()
   const [value, setValue] = React.useState(0)
+  const [tabs, setTabs] = React.useState([])
+  const [tabsIncoming, setTabsIncoming] = React.useState([])
+  const [tabsExpenses, setTabsExpenses] = React.useState([])
 
-  const dateToday = new Date('2022-09-15')
-  const dateYesterday = new Date('2022-09-14')
-  const dateYesterdayY = new Date('2022-09-13')
+  useEffect(() => {
+    getAllTransactions().then((res) => {
+      const mappedTabs = res.data.map((transactionObject) => {
+        const {
+          // accountIdFrom,
+          // accountNameFrom,
+          // accountIdTo,
+          // accountNameTo,
+          transactionDate,
+          transactionAmount,
+          // transactionComments,
+          transactionNumber,
+          // transactionType,
+        } = transactionObject
 
-  const tabs = [
-    {
-      name: 'aaa',
-      date: dateYesterdayY,
-      transactionNumber: 'bjckjweb234321',
-      amount: 150,
-      transactionType: 'income',
-    },
-    {
-      name: 'aaa',
-      date: dateToday,
-      transactionNumber: 'bjckjweb234322',
-      amount: 140,
-      transactionType: 'income',
-    },
-    {
-      name: 'bbb',
-      date: dateToday,
-      transactionNumber: 'bjckjweb234323',
-      amount: 150,
-      transactionType: 'outcome',
-    },
-    {
-      name: 'bbb',
-      date: dateYesterday,
-      transactionNumber: 'bjckjweb234324',
-      amount: 50,
-      transactionType: 'outcome',
-    },
-    {
-      name: 'ccc',
-      date: dateYesterdayY,
-      transactionNumber: 'bjckjweb234325',
-      amount: 1500,
-      transactionType: 'outcome',
-    },
-    {
-      name: 'bbb',
-      date: dateYesterdayY,
-      transactionNumber: 'bjckjweb234326',
-      amount: 1530,
-      transactionType: 'income',
-    },
-  ]
+        return {
+          name: 'aaa',
+          date: new Date(transactionDate),
+          transactionNumber,
+          amount: transactionAmount,
+          transactionType: 'income',
+        }
+      })
+      setTabs(mappedTabs)
+    })
+  }, [])
 
-  const tabHistory = tabs
-
-  const tabIncoming = tabs.filter((item) => item.transactionType === 'income')
-
-  const tabExpenses = tabs.filter((item) => item.transactionType === 'outcome')
+  useEffect(() => {
+    if (tabs) {
+      setTabsIncoming(tabs?.filter((item) => item.transactionType === 'income'))
+      setTabsExpenses(tabs?.filter((item) => item.transactionType === 'outcome'))
+    }
+  }, [tabs])
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -184,13 +167,13 @@ export default function TransactionsTabs() {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <TransactionContainer tabs={tabIncoming} />
+          <TransactionContainer tabs={tabsIncoming} />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <TransactionContainer tabs={tabExpenses} />
+          <TransactionContainer tabs={tabsExpenses} />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          <TransactionContainer tabs={tabHistory} />
+          <TransactionContainer tabs={tabs} />
         </TabPanel>
       </SwipeableViews>
       {fabs.map((fab, index) => (
