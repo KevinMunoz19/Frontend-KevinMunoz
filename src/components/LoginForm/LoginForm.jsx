@@ -1,5 +1,6 @@
 import React from 'react'
 import * as Yup from 'yup'
+import axios from 'axios'
 import FormMaker from '../FormMaker/FormMaker'
 
 function LoginForm() {
@@ -30,12 +31,37 @@ function LoginForm() {
     },
   ]
 
+  const handleSubmit = async (values) => {
+    try {
+      const {
+        email, password,
+      } = values
+      const logInBody = {
+        userEmail: email,
+        userPassword: password,
+      }
+      const resp = await axios.post('http://localhost:3031/api/users/login', logInBody)
+      const returnObject = {
+        isSuccess: true,
+        response: resp,
+      }
+      return returnObject
+    } catch (error) {
+      const returnObject = {
+        isSuccess: false,
+        response: error,
+      }
+      return returnObject
+    }
+  }
+
   return (
     <FormMaker
       formTitle="Login"
       initialFormValues={initialFormValues}
       validationSchema={validationSchema}
       inputTextFields={inputTextFields}
+      handleSubmit={handleSubmit}
     />
   )
 }
