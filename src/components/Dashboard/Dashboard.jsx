@@ -1,26 +1,10 @@
 import React, { useEffect } from 'react'
 import { Paper, Grid } from '@mui/material'
-import axios from 'axios'
+import { getAccounts } from '../../utils/apiCalls'
 import AccountCard from './AccountCard'
 
 function Dashboard() {
   const [accountsArray, setAccountsArray] = React.useState([])
-  const getAccounts = async () => {
-    try {
-      const resp = await axios.get('http://localhost:3031/api/accounts/1')
-      const returnObject = {
-        isSuccess: true,
-        response: resp,
-      }
-      return returnObject
-    } catch (error) {
-      const returnObject = {
-        isSuccess: false,
-        response: error,
-      }
-      return returnObject
-    }
-  }
   useEffect(() => {
     getAccounts().then((resp) => {
       if (resp.isSuccess) {

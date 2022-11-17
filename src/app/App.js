@@ -7,6 +7,7 @@ import ErrorPage from '../pages/ErrorPage'
 import SignUpPage from '../pages/SignUpPage'
 import History from '../pages/History'
 import AccountPage from '../pages/AccountPage'
+import RecordPage from '../pages/RecordPage'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/error" element={<ErrorPage />} />
         <Route path="/history" element={<History />} />
         <Route path="/account" element={<AccountPage />} />
+        <Route path="/record" element={<RecordPage />} />
       </Routes>
     </div>
   )
