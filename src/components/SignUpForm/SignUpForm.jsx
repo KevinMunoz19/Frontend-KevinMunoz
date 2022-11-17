@@ -1,6 +1,7 @@
 import React from 'react'
 import * as Yup from 'yup'
 import axios from 'axios'
+import { signUpUrl } from '../../utils/constants'
 import FormMaker from '../FormMaker/FormMaker'
 
 function SignUpForm() {
@@ -82,7 +83,7 @@ function SignUpForm() {
         userEmail: email,
         userPassword: password,
       }
-      const resp = await axios.post('http://localhost:3031/api/users/signup', signUpBody)
+      const resp = await axios.post(signUpUrl, signUpBody)
       const returnObject = {
         isSuccess: true,
         response: resp,

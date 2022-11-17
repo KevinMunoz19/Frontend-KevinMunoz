@@ -1,6 +1,7 @@
 import React from 'react'
 import * as Yup from 'yup'
 import axios from 'axios'
+import { createAccountUrl } from '../../utils/constants'
 import FormMaker from '../FormMaker/FormMaker'
 
 function LoginForm() {
@@ -70,7 +71,7 @@ function LoginForm() {
         accountBalance: +initialBalance,
         userId: '1',
       }
-      const resp = await axios.post('http://localhost:3031/api/accounts/create', createAccountBody)
+      const resp = await axios.post(createAccountUrl, createAccountBody)
       const returnObject = {
         isSuccess: true,
         response: resp,
