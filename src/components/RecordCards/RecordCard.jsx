@@ -3,17 +3,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Paper, Grid } from '@mui/material'
 
-function TransactionCard({ data }) {
+function RecordCard({ data }) {
   const {
-    nameFrom,
     idFrom,
-    nameTo,
-    idTo,
     date,
-    transactionNumber,
+    recordNumber,
     amount,
     comment,
-    transactionType,
+    recordCategory,
+    nameFrom,
   } = data
   return (
     <Grid
@@ -58,13 +56,13 @@ function TransactionCard({ data }) {
               item
               xs={12}
             >
-              {comment}
+              {recordNumber}
             </Grid>
             <Grid
               item
               xs={12}
             >
-              {transactionType}
+              {recordCategory}
             </Grid>
           </Grid>
           <Grid
@@ -79,19 +77,7 @@ function TransactionCard({ data }) {
               item
               xs={12}
             >
-              {transactionNumber}
-            </Grid>
-            <Grid
-              item
-              xs={12}
-            >
-              {nameTo}
-            </Grid>
-            <Grid
-              item
-              xs={12}
-            >
-              {idTo}
+              {comment}
             </Grid>
             <Grid
               item
@@ -115,8 +101,8 @@ function TransactionCard({ data }) {
   )
 }
 
-TransactionCard.propTypes = {
+RecordCard.propTypes = {
   data: PropTypes.object.isRequired,
 }
 
-export default TransactionCard
+export default RecordCard

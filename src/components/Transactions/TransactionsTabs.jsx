@@ -67,45 +67,67 @@ export default function TransactionsTabs() {
   const theme = useTheme()
   const [value, setValue] = React.useState(0)
   const [tabs, setTabs] = React.useState([])
-  const [tabsIncome, setTabsIncome] = React.useState([])
-  const [tabsExpenses, setTabsExpenses] = React.useState([])
+  const [recordsIncome, setRecordsIncome] = React.useState([])
+  const [recordsExpenses, setRecordsExpenses] = React.useState([])
 
   useEffect(() => {
     getAllTransactions().then((res) => {
       const mappedTabs = res.data.map((transactionObject) => {
         const {
           accountIdFrom,
-          // accountNameFrom,
-          // accountIdTo,
-          // accountNameTo,
+          accountNameFrom,
+          accountIdTo,
+          accountNameTo,
           transactionDate,
           transactionAmount,
-          // transactionComments,
+          transactionComments,
           transactionNumber,
-          // transactionType,
+          transactionType,
         } = transactionObject
 
         return {
-          name: accountIdFrom,
+          nameFrom: accountNameFrom,
+          idFrom: accountIdFrom,
+          nameTo: accountNameTo,
+          idTo: accountIdTo,
           date: new Date(transactionDate),
           transactionNumber,
           amount: transactionAmount,
-          transactionType: 'income',
+          comment: transactionComments,
+          transactionType,
         }
       })
       setTabs(mappedTabs)
     })
     getAllRecords().then((res) => {
-      console.log('res', res)
+      const { data } = res
+      const mappedRecords = data.map((recordObject) => {
+        const {
+          recordAccountId,
+          recordAccountName,
+          recordAmount,
+          recordCategory,
+          recordComments,
+          recordDate,
+          recordIsExpense,
+          recordNumber,
+        } = recordObject
+
+        return {
+          idFrom: recordAccountId,
+          nameFrom: recordAccountName,
+          date: new Date(recordDate),
+          recordNumber,
+          amount: recordAmount,
+          comment: recordComments,
+          recordCategory,
+          recordIsExpense,
+        }
+      })
+      setRecordsIncome(mappedRecords?.filter((item) => !item.recordIsExpense))
+      setRecordsExpenses(mappedRecords?.filter((item) => item.recordIsExpense))
     })
   }, [])
-
-  useEffect(() => {
-    if (tabs) {
-      setTabsIncome(tabs?.filter((item) => item.transactionType === 'income'))
-      setTabsExpenses(tabs?.filter((item) => item.transactionType === 'outcome'))
-    }
-  }, [tabs])
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -170,10 +192,10 @@ export default function TransactionsTabs() {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <TransactionContainer tabs={tabsIncome} />
+          <TransactionContainer tabs={recordsIncome} />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <TransactionContainer tabs={tabsExpenses} />
+          <TransactionContainer tabs={recordsExpenses} />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           <TransactionContainer tabs={tabs} />
