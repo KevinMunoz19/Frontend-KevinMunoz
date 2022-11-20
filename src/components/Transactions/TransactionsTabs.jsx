@@ -15,7 +15,7 @@ import UpIcon from '@mui/icons-material/KeyboardArrowUp'
 import { green } from '@mui/material/colors'
 import Box from '@mui/material/Box'
 import TransactionContainer from '../TransactionsContainer/TransactionContainer'
-import { getAllTransactions } from '../../utils/apiCalls'
+import { getAllTransactions, getAllRecords } from '../../utils/apiCalls'
 
 function TabPanel(props) {
   const {
@@ -67,14 +67,14 @@ export default function TransactionsTabs() {
   const theme = useTheme()
   const [value, setValue] = React.useState(0)
   const [tabs, setTabs] = React.useState([])
-  const [tabsIncoming, setTabsIncoming] = React.useState([])
+  const [tabsIncome, setTabsIncome] = React.useState([])
   const [tabsExpenses, setTabsExpenses] = React.useState([])
 
   useEffect(() => {
     getAllTransactions().then((res) => {
       const mappedTabs = res.data.map((transactionObject) => {
         const {
-          // accountIdFrom,
+          accountIdFrom,
           // accountNameFrom,
           // accountIdTo,
           // accountNameTo,
@@ -86,7 +86,7 @@ export default function TransactionsTabs() {
         } = transactionObject
 
         return {
-          name: 'aaa',
+          name: accountIdFrom,
           date: new Date(transactionDate),
           transactionNumber,
           amount: transactionAmount,
@@ -95,11 +95,14 @@ export default function TransactionsTabs() {
       })
       setTabs(mappedTabs)
     })
+    getAllRecords().then((res) => {
+      console.log('res', res)
+    })
   }, [])
 
   useEffect(() => {
     if (tabs) {
-      setTabsIncoming(tabs?.filter((item) => item.transactionType === 'income'))
+      setTabsIncome(tabs?.filter((item) => item.transactionType === 'income'))
       setTabsExpenses(tabs?.filter((item) => item.transactionType === 'outcome'))
     }
   }, [tabs])
@@ -167,7 +170,7 @@ export default function TransactionsTabs() {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <TransactionContainer tabs={tabsIncoming} />
+          <TransactionContainer tabs={tabsIncome} />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <TransactionContainer tabs={tabsExpenses} />

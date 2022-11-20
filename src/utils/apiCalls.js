@@ -1,7 +1,8 @@
 import axios from 'axios'
-import { apiBaseUrl, apiTransactionsUrl, apiCreateUrl } from './constants'
+import { getTransactionsUrl } from './constants'
 
-const getAllTransactions = async () => axios.get(`${apiBaseUrl}${apiTransactionsUrl}${apiCreateUrl}`)
+const getAllTransactions = async () => axios.get(getTransactionsUrl)
+const getAllRecords = async () => axios.get('http://localhost:3031/api/records/1')
 const getAccounts = async () => {
   try {
     const resp = await axios.get('http://localhost:3031/api/accounts/1')
@@ -22,4 +23,5 @@ const getAccounts = async () => {
 export {
   getAllTransactions,
   getAccounts,
+  getAllRecords,
 }

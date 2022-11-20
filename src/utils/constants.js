@@ -11,3 +11,6 @@ export const createAccountUrl = apiBaseUrl + apiAccountsUrl + apiCreateUrl
 export const loginUrl = apiBaseUrl + apiUsersUrl + apiLoginUrl
 export const signUpUrl = apiBaseUrl + apiUsersUrl + apiSignUpUrl
 export const createRecordUrl = apiBaseUrl + apiRecordsUrl + apiCreateUrl
+export const createTransactionUrl = apiBaseUrl + apiTransactionsUrl + apiCreateUrl
+export const getTransactionsUrl = `${apiBaseUrl + apiTransactionsUrl}/`
+export const getRecordsUrl = `${apiBaseUrl + apiRecordsUrl}/`

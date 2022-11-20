@@ -8,6 +8,7 @@ import SignUpPage from '../pages/SignUpPage'
 import History from '../pages/History'
 import AccountPage from '../pages/AccountPage'
 import RecordPage from '../pages/RecordPage'
+import TransactionPage from '../pages/TransactionPage'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/history" element={<History />} />
         <Route path="/account" element={<AccountPage />} />
         <Route path="/record" element={<RecordPage />} />
+        <Route path="/transaction" element={<TransactionPage />} />
       </Routes>
     </div>
   )
