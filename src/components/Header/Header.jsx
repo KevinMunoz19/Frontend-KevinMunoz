@@ -13,13 +13,24 @@ import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import AdbIcon from '@mui/icons-material/Adb'
 import { Link } from 'react-router-dom'
-
-const pagesObject = [{ text: 'Transactions', link: '/history' }, { text: 'Accounts', link: '/account' }]
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
+import { getCurrentUser } from '../../services/auth.service'
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null)
   const [anchorElUser, setAnchorElUser] = React.useState(null)
+  const [settings, setSettings] = React.useState([])
+  const [pagesObject, setPagesObject] = React.useState([])
+
+  React.useEffect(() => {
+    const userObject = getCurrentUser()
+    if (!userObject) {
+      setSettings(['Log in'])
+      setPagesObject([])
+    } else {
+      setSettings(['Profile', 'Account', 'Dashboard', 'Logout'])
+      setPagesObject([{ text: 'Transactions', link: '/history' }, { text: 'Accounts', link: '/account' }])
+    }
+  }, [])
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget)
@@ -56,7 +67,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            AAA
+            Finance Tracker
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -113,7 +124,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            AAA
+            Finance Tracker
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pagesObject.map((page) => (

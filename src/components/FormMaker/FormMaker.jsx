@@ -109,12 +109,8 @@ export default function FormMaker({
   const [loading, setLoading] = React.useState(false)
   const submitting = async (values) => {
     handleSubmit(values).then((res) => {
-      // eslint-disable-next-line no-console
-      console.log('res', res)
       if (res) setLoading(false)
     }).catch((error) => {
-      // eslint-disable-next-line no-console
-      console.log('error', error)
       if (error) setLoading(false)
     })
   }

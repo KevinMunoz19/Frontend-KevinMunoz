@@ -9,6 +9,11 @@ import History from '../pages/History'
 import AccountPage from '../pages/AccountPage'
 import RecordPage from '../pages/RecordPage'
 import TransactionPage from '../pages/TransactionPage'
+import AuthVerify from '../services/auth.verify'
+
+const logOut = () => {
+  localStorage.removeItem('user')
+}
 
 function App() {
   return (
@@ -23,6 +28,7 @@ function App() {
         <Route path="/record" element={<RecordPage />} />
         <Route path="/transaction" element={<TransactionPage />} />
       </Routes>
+      <AuthVerify logOut={logOut} />
     </div>
   )
 }
