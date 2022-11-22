@@ -10,7 +10,6 @@ function RecordPage() {
   const [accountsArray, setAccountsArray] = React.useState([])
 
   useEffect(() => {
-    localStorage.removeItem('user')
     const userObject = getCurrentUser()
     if (!userObject) {
       navigate('/login')
