@@ -1,11 +1,12 @@
 import axios from 'axios'
-import { getTransactionsUrl } from './constants'
+import { getTransactionsUrl, getAccountUrl, getRecordUrl } from './constants'
+import authHeader from '../services/auth-header'
 
 const getAllTransactions = async () => axios.get(getTransactionsUrl)
-const getAllRecords = async () => axios.get('http://localhost:3031/api/records/1')
+const getAllRecords = async () => axios.get(getRecordUrl, { headers: authHeader() })
 const getAccounts = async () => {
   try {
-    const resp = await axios.get('http://localhost:3031/api/accounts/1')
+    const resp = await axios.get(getAccountUrl, { headers: authHeader() })
     const returnObject = {
       isSuccess: true,
       response: resp,
