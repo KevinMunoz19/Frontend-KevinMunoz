@@ -2,7 +2,7 @@ import axios from 'axios'
 import { getTransactionsUrl, getAccountUrl, getRecordUrl } from './constants'
 import authHeader from '../services/auth-header'
 
-const getAllTransactions = async () => axios.get(getTransactionsUrl)
+const getAllTransactions = async () => axios.get(getTransactionsUrl, { headers: authHeader() })
 const getAllRecords = async () => axios.get(getRecordUrl, { headers: authHeader() })
 const getAccounts = async () => {
   try {
