@@ -16,13 +16,17 @@ function Dashboard() {
         const { accounts } = resp.response.data
         const { firstName, lastName, userEmail } = resp.response.data
         const userObject = [firstName, lastName, userEmail]
+        const balanceSum = accounts.reduce(
+          (accumulator, currentValue) => accumulator + (+currentValue.accountBalance),
+          0,
+        )
         const totalBalance = {
-          title: 'aaaa',
-          value: 100.00,
+          title: 'Total Balance',
+          value: balanceSum,
         }
         const totalAccounts = {
-          title: 'aaaa',
-          value: 100.00,
+          title: 'Number of accounts',
+          value: accounts.length,
         }
         setAnalitycsInfo([totalBalance, totalAccounts])
         setUserData(userObject)
@@ -56,10 +60,10 @@ function Dashboard() {
           >
             <Typography variant="h3" textAlign="left">User Information</Typography>
             {userData.map((item) => (
-              <Typography variant="h5" textAlign="left">{item}</Typography>
+              <Typography key={item} variant="h5" textAlign="left">{item}</Typography>
             ))}
             {analitycsInfo.map((item) => (
-              <InfoCard info={item} />
+              <InfoCard info={item} key={item.title} />
             ))}
           </Grid>
           <Grid
@@ -82,7 +86,7 @@ function Dashboard() {
               className="scrollableList"
             >
               {accountsArray.map((item) => (
-                <AccountCard account={item} />
+                <AccountCard key={item.accountNumber} account={item} />
               ))}
             </List>
           </Grid>
