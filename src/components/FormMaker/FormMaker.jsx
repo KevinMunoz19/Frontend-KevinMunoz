@@ -108,8 +108,8 @@ export default function FormMaker({
 }) {
   const [loading, setLoading] = React.useState(false)
   const submitting = async (values) => {
-    handleSubmit(values).then((res) => {
-      if (res) setLoading(false)
+    handleSubmit(values).then(() => {
+      // if (res) setLoading(false)
     }).catch((error) => {
       if (error) setLoading(false)
     })
