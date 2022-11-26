@@ -1,10 +1,13 @@
 import React from 'react'
 import * as Yup from 'yup'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 import { createRecordUrl } from '../../utils/constants'
 import FormMaker from '../FormMaker/FormMaker'
+import authHeader from '../../services/auth-header'
 
 function RecordForm(acc) {
+  const navigate = useNavigate()
   const { accountsArray } = acc
   const accountNumbers = accountsArray.map((accountObject) => accountObject.accountNumber)
   const accountNumbersOptions = accountsArray.map((accountObject) => ({
@@ -17,7 +20,6 @@ function RecordForm(acc) {
     recordAmount: 0.00,
     recordCategory: '',
     recordIsExpense: '',
-    userId: '1',
   }
   const validationSchema = Yup.object({
     recordAccountId: Yup.string()
@@ -113,9 +115,11 @@ function RecordForm(acc) {
         recordAmount: +recordAmount,
         recordCategory,
         recordIsExpense: recordIsExpenseValue,
-        userId: '1',
       }
-      const resp = await axios.post(createRecordUrl, createRecordBody)
+      const resp = await axios.post(createRecordUrl, createRecordBody, { headers: authHeader() })
+      if (resp?.data) {
+        navigate('/')
+      }
       const returnObject = {
         isSuccess: true,
         response: resp,

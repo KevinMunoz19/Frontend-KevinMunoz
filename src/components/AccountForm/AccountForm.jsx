@@ -1,10 +1,13 @@
 import React from 'react'
 import * as Yup from 'yup'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 import { createAccountUrl } from '../../utils/constants'
 import FormMaker from '../FormMaker/FormMaker'
+import authHeader from '../../services/auth-header'
 
 function LoginForm() {
+  const navigate = useNavigate()
   const initialFormValues = {
     accountName: '',
     initialBalance: 0.00,
@@ -69,9 +72,11 @@ function LoginForm() {
         accountCurrency,
         accountName,
         accountBalance: +initialBalance,
-        userId: '1',
       }
-      const resp = await axios.post(createAccountUrl, createAccountBody)
+      const resp = await axios.post(createAccountUrl, createAccountBody, { headers: authHeader() })
+      if (resp?.data) {
+        navigate('/')
+      }
       const returnObject = {
         isSuccess: true,
         response: resp,
