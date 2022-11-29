@@ -4,6 +4,7 @@ import { getAccounts } from '../utils/apiCalls'
 import PageLayout from './PageLayout/PageLayout'
 import TransactionForm from '../components/TransactionForm/TransactionForm'
 import { getCurrentUser } from '../services/auth.service'
+import EmptyDataCard from '../components/EmptyDataCard/EmptyDataCard'
 
 function TransactionPage() {
   const navigate = useNavigate()
@@ -31,7 +32,9 @@ function TransactionPage() {
     )
   }
   return (
-    <PageLayout />
+    <PageLayout>
+      <EmptyDataCard />
+    </PageLayout>
   )
 }
 

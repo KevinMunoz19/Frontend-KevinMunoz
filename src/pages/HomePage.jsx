@@ -4,6 +4,7 @@ import PageLayout from './PageLayout/PageLayout'
 import Dashboard from '../components/Dashboard/Dashboard'
 import { getCurrentUser } from '../services/auth.service'
 import { getAccounts } from '../utils/apiCalls'
+import EmptyDataCard from '../components/EmptyDataCard/EmptyDataCard'
 
 function HomePage() {
   const navigate = useNavigate()
@@ -40,7 +41,9 @@ function HomePage() {
     )
   }
   return (
-    <PageLayout />
+    <PageLayout>
+      <EmptyDataCard />
+    </PageLayout>
   )
 }
 

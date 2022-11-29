@@ -4,6 +4,7 @@ import { getAccounts } from '../utils/apiCalls'
 import PageLayout from './PageLayout/PageLayout'
 import RecordForm from '../components/RecordForm/RecordForm'
 import { getCurrentUser } from '../services/auth.service'
+import EmptyDataCard from '../components/EmptyDataCard/EmptyDataCard'
 
 function RecordPage() {
   const navigate = useNavigate()
@@ -31,7 +32,9 @@ function RecordPage() {
     )
   }
   return (
-    <PageLayout />
+    <PageLayout>
+      <EmptyDataCard />
+    </PageLayout>
   )
 }
 
