@@ -11,11 +11,12 @@ import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
-import AdbIcon from '@mui/icons-material/Adb'
-import { Link } from 'react-router-dom'
+import FolderIcon from '@mui/icons-material/Folder'
+import { Link, useNavigate } from 'react-router-dom'
 import { getCurrentUser } from '../../services/auth.service'
 
 function ResponsiveAppBar() {
+  const navigate = useNavigate()
   const [anchorElNav, setAnchorElNav] = React.useState(null)
   const [anchorElUser, setAnchorElUser] = React.useState(null)
   const [settings, setSettings] = React.useState([])
@@ -24,11 +25,11 @@ function ResponsiveAppBar() {
   React.useEffect(() => {
     const userObject = getCurrentUser()
     if (!userObject) {
-      setSettings(['Log in'])
+      setSettings([{ text: 'Log in', link: '/login' }, { text: 'Sign up', link: '/signup' }])
       setPagesObject([])
     } else {
-      setSettings(['Profile', 'Account', 'Dashboard', 'Logout'])
-      setPagesObject([{ text: 'Transactions', link: '/history' }, { text: 'Accounts', link: '/account' }])
+      setSettings([{ text: 'Profile', link: '/' }, { text: 'Logout', link: 'logout' }])
+      setPagesObject([{ text: 'Dashboard', link: '/' }, { text: 'Transactions', link: '/history' }, { text: 'Create account', link: '/account' }, { text: 'Create transaction', link: '/transaction' }, { text: 'Register record', link: '/record' }])
     }
   }, [])
 
@@ -43,15 +44,23 @@ function ResponsiveAppBar() {
     setAnchorElNav(null)
   }
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (settingItem) => {
     setAnchorElUser(null)
+    if (settingItem.link) {
+      const isLinkNavigate = (settingItem.link).includes('/')
+      if (isLinkNavigate) {
+        navigate(settingItem.link)
+      } else {
+        localStorage.removeItem('user')
+        navigate('/login')
+      }
+    }
   }
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" color="secondary">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -63,56 +72,69 @@ function ResponsiveAppBar() {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: 'black',
               textDecoration: 'none',
             }}
           >
-            Finance Tracker
+            FT
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              {pagesObject.map((page) => (
-                <MenuItem key={page.text} onClick={handleCloseNavMenu}>
-                  <Link to={page.link}>
-                    <Typography textAlign="center">{page.text}</Typography>
-                  </Link>
-                </MenuItem>
-              ))}
-            </Menu>
+            {pagesObject.length > 0
+              && (
+                <>
+                  <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleOpenNavMenu}
+                    color="inherit"
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorElNav}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'left',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'left',
+                    }}
+                    open={Boolean(anchorElNav)}
+                    onClose={handleCloseNavMenu}
+                    sx={{
+                      display: { xs: 'block', md: 'none' },
+                    }}
+                  >
+                    {pagesObject.map((page) => (
+                      <MenuItem key={page.text} onClick={handleCloseNavMenu}>
+                        <Link to={page.link}>
+                          <Typography
+                            key={page.text}
+                            textAlign="center"
+                            color="black"
+                          >
+                            {page.text}
+                          </Typography>
+                        </Link>
+                      </MenuItem>
+                    ))}
+                  </Menu>
+
+                </>
+              )}
+
           </Box>
           <Typography
             variant="h5"
             noWrap
             component="a"
-            href=""
+            href="/"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -120,30 +142,35 @@ function ResponsiveAppBar() {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: 'black',
               textDecoration: 'none',
             }}
           >
-            Finance Tracker
+            FT
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pagesObject.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                <Link to={page.link}>
-                  <Typography textAlign="center">{page.text}</Typography>
-                </Link>
-              </Button>
-            ))}
-          </Box>
+          {pagesObject.length > 0
+            && (
+            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+              {pagesObject.map((page) => (
+                <Button
+                  key={page.text}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, display: 'block' }}
+                >
+                  <Link to={page.link}>
+                    <Typography textAlign="center" color="white">{page.text}</Typography>
+                  </Link>
+                </Button>
+              ))}
+            </Box>
+            )}
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar>
+                  <FolderIcon />
+                </Avatar>
               </IconButton>
             </Tooltip>
             <Menu
@@ -163,8 +190,8 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                <MenuItem key={setting.text} onClick={() => handleCloseUserMenu(setting)}>
+                  <Typography textAlign="center">{setting.text}</Typography>
                 </MenuItem>
               ))}
             </Menu>
