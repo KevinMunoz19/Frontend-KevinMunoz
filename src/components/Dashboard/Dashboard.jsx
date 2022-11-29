@@ -6,6 +6,7 @@ import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import AccountCard from '../AccountCard/AccountCard'
 import InfoCard from '../InfoCard/InfoCard'
+import { colorSecondary, colorTertiary } from '../../utils/colors'
 import './Dashboard.css'
 
 function Dashboard(acc) {
@@ -50,6 +51,18 @@ function Dashboard(acc) {
           container
           direction="row"
           xs={12}
+          key="paperContainerDashboardButtons"
+          justifyContent="flex-end"
+          style={{ backgroundColor: colorSecondary }}
+        >
+          <ButtonGroup variant="contained" style={{ backgroundColor: colorTertiary }} aria-label="medium secondary button group">
+            {buttons}
+          </ButtonGroup>
+        </Grid>
+        <Grid
+          container
+          direction="row"
+          xs={12}
           key="paperContainerDashboardTile"
         >
           <Grid
@@ -57,33 +70,30 @@ function Dashboard(acc) {
             xs={12}
             sm={6}
             sx={{
-              bgcolor: 'red',
+              bgcolor: colorSecondary,
               padding: '1rem',
             }}
             key="leftSideTile"
           >
-            <Typography key="userTitle" variant="h3" textAlign="left">User Information</Typography>
+            <Typography key="userTitle" variant="h3" textAlign="left" color="white">User Information</Typography>
             {userDataProp.map((item) => (
               <Typography key={item} variant="h5" textAlign="left">{item}</Typography>
             ))}
             {analitycsInfoProp.map((item) => (
               <InfoCard info={item} key={item.title} />
             ))}
-            <ButtonGroup variant="contained" color="secondary" aria-label="medium secondary button group">
-              {buttons}
-            </ButtonGroup>
           </Grid>
           <Grid
             item
             xs={12}
             sm={6}
             sx={{
-              bgcolor: 'red',
+              bgcolor: colorSecondary,
               padding: '1rem',
             }}
             key="rightSideTile"
           >
-            <Typography key="AccountsTitle" variant="h3" textAlign="left">Accounts</Typography>
+            <Typography key="AccountsTitle" variant="h3" textAlign="left" color="white">Accounts</Typography>
             <List
               sx={{
                 height: '63vh',

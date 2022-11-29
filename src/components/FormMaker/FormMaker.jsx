@@ -14,6 +14,7 @@ import { Formik, Form, useField } from 'formik'
 import './form.css'
 import LoadingButton from '@mui/lab/LoadingButton'
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight'
+import { colorSecondary, colorTertiary } from '../../utils/colors'
 
 function MyTextInput({ label, ...props }) {
   const [field, meta] = useField(props)
@@ -147,7 +148,7 @@ export default function FormMaker({
     setShowErrorAlert(false)
   }
   return (
-    <Card className="formcard" variant="outlined">
+    <Card className="formcard" variant="outlined" style={{ backgroundColor: colorSecondary }}>
       <CardContent>
         <div className="textinputcontainer">
           <Typography variant="h3" gutterBottom>
@@ -222,10 +223,10 @@ export default function FormMaker({
               >
                 <div className="textinputcontainer">
                   <LoadingButton
-                    variant="outlined"
                     type="submit"
                     loading={loading}
                     startIcon={<KeyboardDoubleArrowRightIcon />}
+                    style={{ backgroundColor: colorTertiary, color: 'white' }}
                   >
                     Submit
                   </LoadingButton>

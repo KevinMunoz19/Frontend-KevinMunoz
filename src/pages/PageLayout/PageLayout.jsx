@@ -25,6 +25,7 @@ function PageLayout({ children }) {
         container
         direction="row"
         className="body"
+        style={{ backgroundColor: '#ffffff' }}
         {...bodyProps}
       >
         {children}

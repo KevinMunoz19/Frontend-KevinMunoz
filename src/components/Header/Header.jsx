@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem'
 import FolderIcon from '@mui/icons-material/Folder'
 import { Link, useNavigate } from 'react-router-dom'
 import { getCurrentUser } from '../../services/auth.service'
+import { colorPrimary } from '../../utils/colors'
 
 function ResponsiveAppBar() {
   const navigate = useNavigate()
@@ -58,7 +59,7 @@ function ResponsiveAppBar() {
   }
 
   return (
-    <AppBar position="static" color="secondary">
+    <AppBar position="static" style={{ backgroundColor: colorPrimary }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -72,7 +73,7 @@ function ResponsiveAppBar() {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'black',
+              color: 'white',
               textDecoration: 'none',
             }}
           >
@@ -142,7 +143,7 @@ function ResponsiveAppBar() {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'black',
+              color: 'white',
               textDecoration: 'none',
             }}
           >
