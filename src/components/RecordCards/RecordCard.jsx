@@ -36,7 +36,7 @@ function RecordCard({ data }) {
             alignContent="center"
             justifyContent="center"
             sx={{
-              bgcolor: 'red',
+              bgcolor: 'white',
               padding: '1rem',
             }}
           >
@@ -69,7 +69,7 @@ function RecordCard({ data }) {
             item
             xs={5}
             sx={{
-              bgcolor: 'green',
+              bgcolor: 'white',
               padding: '1rem',
             }}
           >
@@ -90,7 +90,7 @@ function RecordCard({ data }) {
             item
             xs={2}
             sx={{
-              bgcolor: 'blue',
+              bgcolor: 'white',
             }}
           >
             {amount}

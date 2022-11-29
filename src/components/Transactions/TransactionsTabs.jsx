@@ -11,11 +11,10 @@ import Zoom from '@mui/material/Zoom'
 import Fab from '@mui/material/Fab'
 import AddIcon from '@mui/icons-material/Add'
 import EditIcon from '@mui/icons-material/Edit'
-import UpIcon from '@mui/icons-material/KeyboardArrowUp'
-import { green } from '@mui/material/colors'
 import Box from '@mui/material/Box'
 import TransactionContainer from '../TransactionsContainer/TransactionContainer'
 import { getAllTransactions, getAllRecords } from '../../utils/apiCalls'
+import { colorSecondary } from '../../utils/colors'
 
 function TabPanel(props) {
   const {
@@ -53,14 +52,6 @@ const fabStyle = {
   position: 'absolute',
   bottom: 16,
   right: 16,
-}
-
-const fabGreenStyle = {
-  color: 'common.white',
-  bgcolor: green[500],
-  '&:hover': {
-    bgcolor: green[600],
-  },
 }
 
 export default function TransactionsTabs() {
@@ -144,21 +135,18 @@ export default function TransactionsTabs() {
 
   const fabs = [
     {
-      color: 'primary',
       sx: fabStyle,
-      icon: <AddIcon />,
+      icon: <EditIcon />,
       label: 'Add',
     },
     {
-      color: 'secondary',
       sx: fabStyle,
       icon: <EditIcon />,
       label: 'Edit',
     },
     {
-      color: 'inherit',
-      sx: { ...fabStyle, ...fabGreenStyle },
-      icon: <UpIcon />,
+      sx: fabStyle,
+      icon: <AddIcon />,
       label: 'Expand',
     },
   ]
@@ -166,7 +154,7 @@ export default function TransactionsTabs() {
   return (
     <Box
       sx={{
-        bgcolor: 'background.paper',
+        bgcolor: colorSecondary,
         width: '90vw',
         position: 'relative',
         minHeight: 200,
@@ -180,6 +168,9 @@ export default function TransactionsTabs() {
           textColor="primary"
           variant="fullWidth"
           aria-label="action tabs example"
+          sx={{
+            bgcolor: colorSecondary,
+          }}
         >
           <Tab label="Income" {...a11yProps(0)} />
           <Tab label="Expense" {...a11yProps(1)} />

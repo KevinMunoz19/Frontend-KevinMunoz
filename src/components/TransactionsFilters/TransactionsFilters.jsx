@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {
   Grid, InputLabel, Select, MenuItem, FormControl,
 } from '@mui/material'
+import { colorSecondary } from '../../utils/colors'
 
 function TransactionsFilters({ setFilterCallback }) {
   const [filter, setFilter] = React.useState('')
@@ -18,6 +19,7 @@ function TransactionsFilters({ setFilterCallback }) {
         marginTop: '1rem',
         marginBottom: '1rem',
         paddingLeft: '1rem',
+        bgcolor: colorSecondary,
       }}
     >
       <Grid
