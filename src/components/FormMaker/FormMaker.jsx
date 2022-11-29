@@ -2,11 +2,13 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {
   Grid, Card, InputLabel, TextField, FormHelperText, Select, MenuItem,
   Checkbox, Typography, FormControlLabel, FormControl, CardContent,
+  Alert, Button,
 } from '@mui/material'
 import { Formik, Form, useField } from 'formik'
 import './form.css'
@@ -104,15 +106,45 @@ MyTextInput.propTypes = {
 
 export default function FormMaker({
   formTitle, initialFormValues, validationSchema, inputTextFields, selectFields,
-  checkboxFields, handleSubmit,
+  checkboxFields, handleSubmit, navigateTo, successMessage,
 }) {
+  const navigate = useNavigate()
   const [loading, setLoading] = React.useState(false)
+  const [showErrorAlert, setShowErrorAlert] = React.useState(false)
+  const [showErrorAlertMessage, setShowErrorAlertMessage] = React.useState(false)
+  const [showSuccessAlert, setShowSuccessAlert] = React.useState(false)
+  const [showSuccessAlertMessage, setShowSuccessAlertMessage] = React.useState(false)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (showSuccessAlert) navigate(navigateTo)
+    }, 1000)
+    return () => clearTimeout(timer)
+  }, [showSuccessAlert])
+  useEffect(() => {
+    setShowSuccessAlertMessage(successMessage)
+    setLoading(false)
+    setShowErrorAlert(false)
+    setShowSuccessAlert(false)
+  }, [])
   const submitting = async (values) => {
     handleSubmit(values).then((res) => {
-      if (res) setLoading(false)
+      if (!res.isSuccess) {
+        setShowErrorAlert(true)
+        setShowErrorAlertMessage(res.response.response.data)
+        if (res) setLoading(false)
+      } else {
+        setShowErrorAlert(false)
+        setShowSuccessAlert(true)
+        if (res?.response?.data?.userToken) {
+          localStorage.setItem('user', JSON.stringify(res.response.data))
+        }
+      }
     }).catch((error) => {
       if (error) setLoading(false)
     })
+  }
+  const handleOnChange = async () => {
+    setShowErrorAlert(false)
   }
   return (
     <Card className="formcard" variant="outlined">
@@ -122,6 +154,10 @@ export default function FormMaker({
             {formTitle}
           </Typography>
         </div>
+        {showErrorAlert
+          && <Alert severity="error">{showErrorAlertMessage}</Alert>}
+        {showSuccessAlert
+          && <Alert severity="success">{showSuccessAlertMessage}</Alert>}
         <Formik
           initialValues={initialFormValues}
           validationSchema={validationSchema}
@@ -134,6 +170,7 @@ export default function FormMaker({
             <Grid
               container
               direction="column"
+              onChange={() => handleOnChange()}
             >
               {inputTextFields && (
                 <>
@@ -197,6 +234,9 @@ export default function FormMaker({
             </Grid>
           </Form>
         </Formik>
+        <div className="link">
+          <Button>Sign Up</Button>
+        </div>
       </CardContent>
     </Card>
   )

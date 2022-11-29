@@ -1,13 +1,11 @@
 import React from 'react'
 import * as Yup from 'yup'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
 import { createTransactionUrl } from '../../utils/constants'
 import FormMaker from '../FormMaker/FormMaker'
 import authHeader from '../../services/auth-header'
 
 function TransactionForm(acc) {
-  const navigate = useNavigate()
   const { accountsArray } = acc
   const accountNumbers = accountsArray.map((accountObject) => accountObject.accountNumber)
   const accountNumbersOptions = accountsArray.map((accountObject) => ({
@@ -16,10 +14,12 @@ function TransactionForm(acc) {
   }))
   const initialFormValues = {
     recordAccountId: '',
-    recordComments: '',
-    recordAmount: 0.00,
-    recordCategory: '',
+    transactionComments: '',
+    transactionAmount: 0.00,
+    transactionType: '',
     recordIsExpense: '',
+    accountIdFrom: '',
+    accountIdTo: '',
   }
   const validationSchema = Yup.object({
     accountIdFrom: Yup.string()
@@ -105,9 +105,6 @@ function TransactionForm(acc) {
         createTransactionBody,
         { headers: authHeader() },
       )
-      if (resp?.data) {
-        navigate('/')
-      }
       const returnObject = {
         isSuccess: true,
         response: resp,
@@ -130,6 +127,8 @@ function TransactionForm(acc) {
       inputTextFields={inputTextFields}
       selectFields={selectFields}
       handleSubmit={handleSubmit}
+      navigateTo="/"
+      successMessage="Transaction registered successfully"
     />
   )
 }

@@ -106,6 +106,8 @@ function SignUpForm() {
       inputTextFields={inputTextFields}
       checkboxFields={checkboxFields}
       handleSubmit={handleSubmit}
+      navigateTo="/"
+      successMessage="User registered successfully"
     />
   )
 }
