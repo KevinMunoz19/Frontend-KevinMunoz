@@ -65,6 +65,7 @@ function LoginForm() {
       handleSubmit={handleSubmit}
       navigateTo="/"
       successMessage="Login correct"
+      showSignUp
     />
   )
 }

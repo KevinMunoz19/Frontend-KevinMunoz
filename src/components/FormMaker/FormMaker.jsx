@@ -30,7 +30,6 @@ function MyTextInput({ label, ...props }) {
           <TextField
             className="textinput"
             error={meta.touched && meta.error ? true : undefined}
-            id="outlined-basic"
             label={label}
             variant="outlined"
             {...field}
@@ -106,7 +105,7 @@ MyTextInput.propTypes = {
 
 export default function FormMaker({
   formTitle, initialFormValues, validationSchema, inputTextFields, selectFields,
-  checkboxFields, handleSubmit, navigateTo, successMessage,
+  checkboxFields, handleSubmit, navigateTo, successMessage, showSignUp,
 }) {
   const navigate = useNavigate()
   const [loading, setLoading] = React.useState(false)
@@ -136,6 +135,7 @@ export default function FormMaker({
         setShowErrorAlert(false)
         setShowSuccessAlert(true)
         if (res?.response?.data?.userToken) {
+          localStorage.removeItem('user')
           localStorage.setItem('user', JSON.stringify(res.response.data))
         }
       }
@@ -234,9 +234,12 @@ export default function FormMaker({
             </Grid>
           </Form>
         </Formik>
-        <div className="link">
-          <Button>Sign Up</Button>
-        </div>
+        {showSignUp
+          && (
+          <div className="link">
+            <Button onClick={() => navigate('/signup')}>Sign Up</Button>
+          </div>
+          )}
       </CardContent>
     </Card>
   )
