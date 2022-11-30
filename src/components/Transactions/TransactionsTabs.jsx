@@ -174,7 +174,7 @@ export default function TransactionsTabs() {
         >
           <Tab label="Income" {...a11yProps(0)} />
           <Tab label="Expense" {...a11yProps(1)} />
-          <Tab label="History" {...a11yProps(2)} />
+          <Tab label="Transactions" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <SwipeableViews

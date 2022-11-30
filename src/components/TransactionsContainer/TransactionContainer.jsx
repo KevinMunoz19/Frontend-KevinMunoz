@@ -46,7 +46,8 @@ function TransactionContainer({ tabs }) {
       <TransactionsFilters setFilterCallback={setFilterCallback} />
       <List sx={{
         height: '50vh',
-        padding: '0.5rem',
+        padding: '1rem',
+        margin: '1rem',
       }}
       >
         {tabsFiltered.map((item) => (
@@ -54,6 +55,9 @@ function TransactionContainer({ tabs }) {
             ? <RecordCard key={item.transactionNumber} data={item} />
             : <TransactionCard key={item.transactionNumber} data={item} />
         ))}
+        <div>
+          .
+        </div>
       </List>
     </>
 

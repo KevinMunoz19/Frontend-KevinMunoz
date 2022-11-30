@@ -29,7 +29,7 @@ function Dashboard(acc) {
       value: balanceSum,
     }
     const totalAccounts = {
-      title: 'Number of accounts',
+      title: 'Number of registered accounts',
       value: accountsArray.length,
     }
     setAnalitycsInfoProp([totalBalance, totalAccounts])
